@@ -1,0 +1,18 @@
+Img = np.zeros((512, 512, 3), np.uint8)
+
+center_coordinates = (220, 150)
+radius = 100
+color = (255, 133, 233)
+alpha = 0.2
+Img = draw_circle(Img, center_coordinates, color, radius, alpha)
+
+
+center_coordinates = (20, 150)
+radius = 50
+color = (255, 0, 0)
+alpha = 0.2
+
+Img = draw_circle(Img, center_coordinates, color, radius, alpha)
+
+plt.imshow(Img)
+plt.show()
