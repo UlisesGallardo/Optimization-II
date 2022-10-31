@@ -10,28 +10,18 @@ class PSO:
         self.bounds = np.array(bounds)
         self.args = args
         self.N = N
-        self.X = None #Position of particles
+        self.X = None                   #Position of particles
         self.fitness = None
-        self.V = None #Velocities
+        self.V = None                   #Velocities
         self.Xbest = None
         self.best_fitness = None
         self.best_global  = None
         self.best_global_fitness = None
 
-        self.hyper_parameters = None #w, c1,c2
-
+        self.hyper_parameters = None    #w, c1,c2
         self.iter = iterations
         self.nfev = 0
         self.rep = rep
-
-
-        self.A = [[1,2],
-            [3,2]]
-        self.b = [ 80,
-            120]
-        self.bounds_1 = [[0,None],
-                [0,None]]
-        self.c = [-20000,-15000]
 
 
     def init_particles(self):
@@ -64,7 +54,7 @@ class PSO:
     def solve(self):
         r = 0
         best_value = 99999999999
-        best_individual = 99999999999
+        best_individual = None
         while r<self.rep:
             self.init_particles()
 
@@ -85,14 +75,16 @@ class PSO:
 
                 best_idx= np.argmin(self.best_fitness)
                 if self.best_fitness[best_idx] < self.best_global_fitness:
-                    #print("el mejor->", best_idx, self.best_fitness, end="\n\n")
-                    #print(self.Xbest[best_idx],end="\n\n")
                     self.best_global = self.Xbest[best_idx].copy()
                     self.best_global_fitness = self.best_fitness[best_idx].copy()
                 t += 1
             r+=1
             print("rep: ",r, "/",self.rep)
-        return self.best_global, self.iter, self.best_global_fitness, self.nfev
+
+            if self.best_global_fitness<best_value:
+                best_value = self.best_global_fitness
+                best_individual = self.best_global.copy()
+        return best_individual, self.iter, best_value, self.nfev
 
 def particle_swarm_optimization(func, iterations, bounds, args = (), N = 2000, rep=1):
     ep  = PSO(func, iterations, bounds, args, N, rep)
