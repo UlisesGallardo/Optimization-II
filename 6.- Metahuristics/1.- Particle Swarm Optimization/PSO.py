@@ -31,15 +31,16 @@ class PSO:
         self.best_global =np.zeros((1,nvar))
 
         w = np.random.uniform(0.7,1)
-        self.hyper_parameters = np.zeros(3)
+        self.hyper_parameters = np.zeros(4)
         self.hyper_parameters[:] = w
+        self.hyper_parameters[3] = self.hyper_parameters[1]/(self.iter)
 
         for v in range(nvar):
             vmin, vmax = self.bounds[v,0], self.bounds[v,1]
             
             vmax = 100 if vmax == None else vmax
             self.X[:,v] = np.random.uniform(vmin,vmax,(self.N))
-            self.V[:,v] = np.random.uniform(0.1,vmax*0.1,(self.N))
+            self.V[:,v] = np.random.normal(0.1,vmax*0.1,(self.N))
             self.Xbest = self.X
 
         for i in range(self.N):
@@ -62,6 +63,7 @@ class PSO:
             while t < self.iter:
                 r1 = np.random.uniform(0,1,(self.N))
                 r2 = np.random.uniform(0,1,(self.N))
+                self.hyper_parameters[:3] -= self.hyper_parameters[3]  
 
                 for i in range(self.N):
                     self.V[i] = self.hyper_parameters[0]*self.V[i] + r1[i]*self.hyper_parameters[1]*(self.Xbest[i]-self.X[i]) + r2[i]*self.hyper_parameters[2]*(self.best_global-self.X[i])
