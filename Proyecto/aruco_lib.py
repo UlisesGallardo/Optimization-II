@@ -70,7 +70,7 @@ class aruco_lib:
                 cv2.circle(image, (cX, cY), 4, (0, 0, 255), -1)
                 
                 cv2.putText(image, str(markerID),(topLeft[0], topLeft[1] - 10), cv2.FONT_HERSHEY_SIMPLEX,
-                    3.5, (0, 0, 255), 2)
+                    1, (255, 0, 0), 2)
 
 
                 print("[Inference] ArUco marker ID: {}".format(markerID))

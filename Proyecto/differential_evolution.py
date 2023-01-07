@@ -76,10 +76,10 @@ class DifferentialEvolution:
                         self.population[i],self.fitness[i] = u,fitness_u
                 gen += 1
             
-            if self.callback !=None:
-                best_idx= np.argmin(self.fitness)
-                best = self.population[best_idx]
-                self.callback(best)
+                if self.callback !=None:
+                    best_idx= np.argmin(self.fitness)
+                    best = self.population[best_idx]
+                    self.callback(best)
             r+=1
             print("rep: ",r, "/",self.rep)
 
@@ -88,6 +88,6 @@ class DifferentialEvolution:
 
         return best, gen, self.fitness[best_idx], self.nfev
 
-def differential_evolution(func, callback, iterations, bounds, args = (), popsize = 2000, Cr = .9, rep=1): # Cr = Posibilidad de Cruza
+def differential_evolution(func, iterations, bounds, callback = None, args = (), popsize = 2000, Cr = .9, rep=1): # Cr = Posibilidad de Cruza
     ep = DifferentialEvolution(func, callback, iterations, bounds, args, popsize, Cr, rep)
     return ep.solve()
